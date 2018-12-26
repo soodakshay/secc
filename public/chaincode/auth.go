@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"bitbucket.org/secc/public/chaincode/core/status"
-	"bitbucket.org/secc/public/chaincode/models"
+	"secc/public/chaincode/core/status"
+	"secc/public/chaincode/models"
+
 	"github.com/s7techlab/cckit/router"
 	"github.com/shomali11/util/xhashes"
 )

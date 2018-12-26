@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 
-	"bitbucket.org/secc/public/chaincode/models"
+	"secc/public/chaincode/models"
+
 	"github.com/s7techlab/cckit/extensions/owner"
 	"github.com/s7techlab/cckit/response"
 	"github.com/s7techlab/cckit/router/param"

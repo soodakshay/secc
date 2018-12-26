@@ -243,7 +243,7 @@ services:
     command: /bin/bash
     volumes:
         - /var/run/:/host/var/run/
-        - ./chaincode:/opt/gopath/src/bitbucket.org/secc/public/chaincode
+        - ./chaincode:/opt/gopath/src/secc/public/chaincode
         - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     networks:
