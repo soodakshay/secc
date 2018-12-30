@@ -31,7 +31,7 @@ func (contract *SmartContract) submitHIDSScan(context router.Context) (interface
 func (contract *SmartContract) submitHIDSIncedentReport(context router.Context) (interface{}, error) {
 
 	requestBody := context.Arg(`request`).(models.HIDSIncidentReportPayload)
-	requestBody.HIDSIncidentReport.MetaInfo = models.MetaInfo{DocType: models.DocTypeHIDSWhitelist,
+	requestBody.HIDSIncidentReport.MetaInfo = models.MetaInfo{DocType: models.DocTypeHIDSIncidentReport,
 		CreatedAt: time.Now()}
 
 	if exist := IdExist(requestBody.HIDSIncidentReport.ServerID, context); !exist {
@@ -51,7 +51,7 @@ func (contract *SmartContract) submitHIDSIncedentReport(context router.Context) 
 func (contract *SmartContract) submitHIDSWhitelistReport(context router.Context) (interface{}, error) {
 
 	requestBody := context.Arg(`request`).(models.HIDSWhitelistPayload)
-	requestBody.HIDSWhitelist.MetaInfo = models.MetaInfo{DocType: models.DocTypeHIDSIncidentReport,
+	requestBody.HIDSWhitelist.MetaInfo = models.MetaInfo{DocType: models.DocTypeHIDSWhitelist,
 		CreatedAt: time.Now()}
 
 	if exist := IdExist(requestBody.HIDSWhitelist.ServerID, context); !exist {

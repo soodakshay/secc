@@ -4,7 +4,15 @@ type MemberRole int
 
 const (
 	Admin MemberRole = 1
-	User  MemberRole = 2
+	User  MemberRole = 0
+)
+
+type AccessStatus int
+
+const (
+	NoAccess     AccessStatus = 0
+	Approved     AccessStatus = 1
+	DeniedAccess AccessStatus = 2
 )
 
 type DocType string

@@ -18,6 +18,7 @@ type HIDSScan struct {
 type HIDSIncidentReport struct {
 	ServerID       string   `json:"server_id,omitempty"`
 	ScanID         string   `json:"scan_id,omitempty"`
+	Description    string   `json:"description,omitempty"`
 	DeletedFiles   string   `json:"deleted_files,omitempty"`
 	ModifiedFiles  string   `json:"modified_files,omitempty"`
 	CreatedFiles   string   `json:"created_files,omitempty"`

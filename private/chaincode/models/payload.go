@@ -1,5 +1,9 @@
 package models
 
+//********************************************
+//				START
+//		Request/Response Payloads
+//********************************************
 type AppServerPayload struct {
 	ID        string    `json:"_id,omitempty"`
 	AppServer AppServer `json:"app_server,omitempty"`
@@ -28,4 +32,35 @@ type HIDSWhitelistPayload struct {
 type HIDSMasterTreePayload struct {
 	ID             string         `json:"_id,omitempty"`
 	HIDSMasterTree HIDSMasterTree `json:"hids_master_tree,omitempty"`
+}
+
+//********************************************
+//					END
+//********************************************
+
+//********************************************
+//				START
+//		Structure for Server incidents
+//********************************************
+type AllServerIncidentsPayload struct {
+	Data []ServerIncidentPayload `json:"data,omitempty"`
+}
+
+type ServerIncidentPayload struct {
+	AppServerPayload          AppServerPayload            `json:"server,omitempty"`
+	HIDSIncidentReportPayload []HIDSIncidentReportPayload `json:"incidents,omitempty"`
+}
+
+//********************************************
+//					END
+//********************************************
+
+type LoginRequest struct {
+	Email    string `json:"email,omitempty"`
+	Password string `json:"password,omitempty"`
+}
+
+type AccessStatusUpdatePayload struct {
+	UserID       string       `json:"user_id,omitempty"`
+	AccessStatus AccessStatus `json:"access_status,omitempty"`
 }

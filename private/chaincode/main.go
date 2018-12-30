@@ -32,7 +32,9 @@ func NewRouter() *SmartContract {
 	contract := &SmartContract{router: router}
 
 	router.Group(`User`).
-		Invoke(`Register`, contract.registerUser, param.Struct(`request`, &models.LocalUserPayload{}))
+		Invoke(`Register`, contract.registerUser, param.Struct(`request`, &models.LocalUserPayload{})).
+		Invoke(`Login`, contract.loginUser, param.Struct(`request`, &models.LoginRequest{})).
+		Invoke(`ChangeAccessStatus`, contract.changeAccessStatus, param.Struct(`request`, &models.AccessStatusUpdatePayload{}), owner.Only)
 
 	router.Group(`AppServer`).
 		Invoke(`Register`, contract.registerApplicationServer, param.Struct(`request`, &models.AppServerPayload{}))
@@ -41,7 +43,8 @@ func NewRouter() *SmartContract {
 		Invoke(`Scan`, contract.submitHIDSScan, param.Struct(`request`, &models.HIDSScanPayload{})).
 		Invoke(`IncidentReport`, contract.submitHIDSIncedentReport, param.Struct(`request`, &models.HIDSIncidentReportPayload{})).
 		Invoke(`Whitelist`, contract.submitHIDSWhitelistReport, param.Struct(`request`, &models.HIDSWhitelistPayload{})).
-		Invoke(`MasterTree`, contract.submitHIDSMasterTree, param.Struct(`request`, &models.HIDSMasterTreePayload{}))
+		Invoke(`MasterTree`, contract.submitHIDSMasterTree, param.Struct(`request`, &models.HIDSMasterTreePayload{})).
+		Query(`GetServerIncidents`, contract.getServerAndIncidents, param.String(`id`))
 
 	return contract
 }
