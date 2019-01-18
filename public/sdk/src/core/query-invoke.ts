@@ -3,12 +3,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { ResponseModel } from './model';
 import { FileSystemWallet, Gateway } from 'fabric-network';
+import CAClient from './fabric-ca-client';
 
-const connectionProfilePath = path.resolve(__dirname, '..','..','..','connection.json')
+const connectionProfilePath = path.resolve(__dirname, '..','..','connection.json')
 const cpJSON = fs.readFileSync(connectionProfilePath,'utf-8');
 const connectionProfile = JSON.parse(cpJSON);
 
-const walletPath = path.resolve(__dirname, '..','..','..','wallet')
+const walletPath = path.resolve(__dirname, '..','..','wallet')
     
 const wallet = new FileSystemWallet(walletPath);
 
@@ -66,33 +67,44 @@ export default class FabricComm{
         chaincode: string,
         queryData?: any
         ): Promise<ResponseModel>{
-            let response: ResponseModel
-            const userExistenceErr = await this.checkUserExistence(username);
+            try{
+                let response= new ResponseModel();         
             
-            if (userExistenceErr != null){
-                response.message = userExistenceErr.message
-                response.status = 500
-                return response
-            }
+
+                const userExistenceErr = await this.checkUserExistence(username);
+                
+                if (userExistenceErr != null){
+                    response.message = userExistenceErr.message
+                    response.status = 500
+                    return response
+                }
     
-            // Create a new gateway for connecting to our peer node.
-            const gateway = new Gateway();
-            await gateway.connect(connectionProfile, { wallet, identity: username, discovery: { enabled: true } });
-            // Get the network (channel) our contract is deployed to.
-            const network = await gateway.getNetwork(channel);
-            // Get the contract from the network.
-            const contract = network.getContract(chaincode);
-            let respBuffer: Buffer
-            if (queryData != null && queryData != undefined){
-                respBuffer = await contract.evaluateTransaction(functionName, JSON.stringify(queryData));
-            }else{
-                respBuffer = await contract.evaluateTransaction(functionName);
+                let caClient = new CAClient();
+                await caClient.enrollUser()
+        
+                // Create a new gateway for connecting to our peer node.
+                const gateway = new Gateway();
+                await gateway.connect(connectionProfile, { wallet, identity: username, discovery: { enabled: true } });
+                // Get the network (channel) our contract is deployed to.
+                const network = await gateway.getNetwork(channel);
+                // Get the contract from the network.
+                const contract = network.getContract(chaincode);
+                let respBuffer: Buffer
+                if (queryData != null && queryData != undefined){
+                    respBuffer = await contract.evaluateTransaction(functionName, JSON.stringify(queryData));
+                }else{
+                    respBuffer = await contract.evaluateTransaction(functionName);
+                }
+                            
+                response.message = "Success"
+                response.status = 200
+                response.data = JSON.parse(respBuffer.toString())
+                return response
+            }catch(error){
+                console.log(error)
+return null;
             }
-                        
-            response.message = "Success"
-            response.status = 200
-            response.data = JSON.parse(respBuffer.toString())
-            return response
+            
         }
 /**
  * This function will check whether user certs exist in wallet or not

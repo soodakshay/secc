@@ -2,7 +2,6 @@ import * as FabricCAServices from 'fabric-ca-client';
 import { FileSystemWallet, X509WalletMixin, Gateway } from 'fabric-network';
 import * as fs from 'fs';
 import * as path from 'path';
-import Utils, * as util from '../util/util';
 
 const connectionProfilePath = path.resolve(__dirname, '..', '..', '..', 'connection.json')
 const cpJSON = fs.readFileSync(connectionProfilePath, 'utf-8');

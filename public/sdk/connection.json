@@ -14,6 +14,10 @@
             }
         }
     },
+    "config":{
+        "chaincode_name":"secc",
+        "channel_name":"public.secc"
+    },
     "channels": {
         "public.secc": {
             "orderers": [
@@ -25,13 +29,15 @@
                     "endorsingPeer":true,
                     "chaincodeQuery":true,
                     "ledgerQuery":true,
-                    "eventSource":true
+                    "eventSource":true,
+                    "discover": true
                     },
                 "peer1.public.secc.com":{
                     "endorsingPeer":true,
                     "chaincodeQuery":true,
                     "ledgerQuery":true,
-                    "eventSource":true
+                    "eventSource":true,
+                    "discover": true
                 }
             }
         }
@@ -47,7 +53,7 @@
                 "ca.public.secc.com"
             ],
             "adminPrivateKey":{
-                "path":"crypto-config/peerOrganizations/public.secc.com/users/Admin@public.secc.com/msp/keystore/8703c9a0b2a038478b1d0b4787cd017ae9f78e937ba2694d03fad7dd78ac51f9_sk"
+                "path":"crypto-config/peerOrganizations/public.secc.com/users/Admin@public.secc.com/msp/keystore/f1c58aff7fa0806139ceb41a6000abaf3f92146a45aa8de31bd2b3dbfcdb4590_sk"
             },"signedCert":{
                 "path":"crypto-config/peerOrganizations/public.secc.com/users/Admin@public.secc.com/msp/signcerts/Admin@public.secc.com-cert.pem"
             }

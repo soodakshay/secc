@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 import { indexRouter } from './routes/index';
-import FabricCAClient from './core/fabric-ca-client';
+import { authRouter } from './routes/auth';
 
 export const app = express();
 // view engine setup
@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 indexRoutes()
-new FabricCAClient().enrollUser()
+authRoutes()
 
 // catch 404 and forward to error handler
 app.use(function (req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -38,4 +38,8 @@ app.use(function (err: any, req: express.Request, res: express.Response, next: e
 
 function indexRoutes() {
   app.use('/', indexRouter);
+}
+
+function authRoutes(){
+  app.use('/auth',authRouter);
 }
