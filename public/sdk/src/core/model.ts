@@ -1,13 +1,11 @@
 import { stat } from "fs";
 
-export class ResponseModel{
+export class ResponseModel {
     message: string
-    status: number
-    data: any
+    status?: number
 
-    constructor(message?: string, status?: number, data?: any){
+    constructor(message?: string, status?: number) {
         this.message = message;
         this.status = status;
-        this.data = data;
     }
 }

@@ -3,7 +3,7 @@ import { FileSystemWallet, X509WalletMixin, Gateway } from 'fabric-network';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const connectionProfilePath = path.resolve(__dirname, '..', '..', '..', 'connection.json')
+const connectionProfilePath = path.resolve(__dirname, '..', '..', 'connection.json')
 const cpJSON = fs.readFileSync(connectionProfilePath, 'utf-8');
 const connectionProfile = JSON.parse(cpJSON);
 
@@ -80,7 +80,4 @@ export default class CAClient {
         }
     }
 }
-
-// new CAClient().registerUser('akshay1', 'admin')
-new CAClient().enrollUser()
 
