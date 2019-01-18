@@ -10,7 +10,8 @@
         "lint": "tslint -c tslint.json 'src/**/*.ts'",
         "pretest": "npm run lint",
         "test": "nyc mocha -r ts-node/register src/**/*.spec.ts",
-        "build": "tsc",
+        "build": "rm -rf dist && tsc  && cp -r src/views dist/ && cp -r src/public dist/public",
+        "serve": "npm run build && node dist/bin/www.js",
         "build:watch": "tsc -w",
         "prepublishOnly": "npm run build"
     },
@@ -18,8 +19,19 @@
     "author": "Hyperledger",
     "license": "Apache-2.0",
     "dependencies": {
+        "@types/cookie-parser": "^1.4.1",
+        "@types/debug": "0.0.31",
+        "@types/http-errors": "^1.6.1",
+        "@types/morgan": "^1.7.35",
+        "cookie-parser": "^1.4.3",
+        "express": "^4.16.4",
         "fabric-ca-client": "1.4.0-rc2",
         "fabric-network": "1.4.0-rc2",
+        "http-errors": "^1.7.1",
+        "jade": "^1.11.0",
+        "morgan": "^1.9.1",
+        "node-gyp": "^3.8.0",
+        "nodemon": "^1.18.9",
         "winston": "^3.1.0"
     },
     "devDependencies": {

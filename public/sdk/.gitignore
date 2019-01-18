@@ -81,3 +81,6 @@ dist
 
 wallet
 !wallet/.gitkeep
+
+dist
+crypto-config

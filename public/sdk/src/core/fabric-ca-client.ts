@@ -4,35 +4,40 @@ import * as fs from 'fs';
 import * as path from 'path';
 import Utils, * as util from '../util/util';
 
-const connectionProfilePath = path.resolve(__dirname, '..','..','..','connection.json')
-const cpJSON = fs.readFileSync(connectionProfilePath,'utf-8');
+const connectionProfilePath = path.resolve(__dirname, '..', '..', '..', 'connection.json')
+const cpJSON = fs.readFileSync(connectionProfilePath, 'utf-8');
 const connectionProfile = JSON.parse(cpJSON);
 
-const walletPath = path.resolve(__dirname, '..','..','..','wallet')
+const walletPath = path.resolve(__dirname, '..', '..', 'wallet')
 
 const caURL = connectionProfile.certificateAuthorities['ca.public.secc.com'].url;
 const ca = new FabricCAServices(caURL);
-    
+
 const wallet = new FileSystemWallet(walletPath);
 
 
-export class CAClient{
+export default class CAClient {
 
-    public async enrollUser(username: string = 'admin', password: string = 'adminpw'): Promise<Error>{
-        try{
-            
+    /**
+     * Enroll user
+     * @param username username of user
+     * @param password secret 
+     */
+    public async enrollUser(username: string = 'admin', password: string = 'adminpw'): Promise<Error> {
+        try {
+
             const exist = await wallet.exists('admin');
-            if(exist){
+            if (exist) {
                 // Utils.getInstance().log("Admin already enrolled");
                 return null;
             }
-    
-            const enrollment = await ca.enroll({enrollmentID:username,enrollmentSecret:password})
-            const identity = X509WalletMixin.createIdentity('SECCPeerOrgMSP',enrollment.certificate,enrollment.key.toBytes());
-            wallet.import(username,identity);
+
+            const enrollment = await ca.enroll({ enrollmentID: username, enrollmentSecret: password })
+            const identity = X509WalletMixin.createIdentity('SECCPeerOrgMSP', enrollment.certificate, enrollment.key.toBytes());
+            wallet.import(username, identity);
             // Utils.getInstance().log("Enrollment of admin done.")
             return null
-        }catch(error){
+        } catch (error) {
             console.log(error)
             return error
         }
@@ -44,16 +49,16 @@ export class CAClient{
      * @param secret - secret key
      */
     public async registerUser(username: string, secret: string): Promise<Error> {
-        try{
+        try {
 
             const adminExist = await wallet.exists('admin')
-            if(!adminExist){
+            if (!adminExist) {
                 return new Error("Please enroll admin first")
             }
 
             const exists = await wallet.exists(username)
 
-            if(exists){
+            if (exists) {
                 return new Error("User already exist")
             }
 
@@ -66,17 +71,17 @@ export class CAClient{
             const adminIdentity = gateway.getCurrentIdentity();
 
 
-            await ca.register({enrollmentID: username, enrollmentSecret: secret, role: 'client', affiliation: 'org1.departmen1'}, adminIdentity)
-            const enrollment = await ca.enroll({enrollmentID:username,enrollmentSecret:secret})
-            const identity = X509WalletMixin.createIdentity('SECCPeerOrgMSP',enrollment.certificate,enrollment.key.toBytes());
-            wallet.import(username,identity);
-        }catch(error){
+            await ca.register({ enrollmentID: username, enrollmentSecret: secret, role: 'client', affiliation: 'org1.department1' }, adminIdentity)
+            const enrollment = await ca.enroll({ enrollmentID: username, enrollmentSecret: secret })
+            const identity = X509WalletMixin.createIdentity('SECCPeerOrgMSP', enrollment.certificate, enrollment.key.toBytes());
+            await wallet.import(username, identity);
+        } catch (error) {
             console.log(error)
             return error
         }
     }
 }
 
-new CAClient().registerUser('akshay', 'admin')
-// new CAClient().enrollUser()
+// new CAClient().registerUser('akshay1', 'admin')
+new CAClient().enrollUser()
 

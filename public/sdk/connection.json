@@ -2,7 +2,7 @@
     "name": "basic-network",
     "version": "1.0.0",
     "client": {
-        "organization": "SECCPeerOrgMSP",
+        "organization": "SECCPeerOrg",
         "connection": {
             "timeout": {
                 "peer": {
@@ -37,7 +37,7 @@
         }
     },
     "organizations": {
-        "Org1": {
+        "SECCPeerOrg": {
             "mspid": "SECCPeerOrgMSP",
             "peers": [
                 "peer0.public.secc.com",
@@ -47,7 +47,7 @@
                 "ca.public.secc.com"
             ],
             "adminPrivateKey":{
-                "path":"crypto-config/peerOrganizations/public.secc.com/users/Admin@public.secc.com/msp/keystore/bd98ac7386f8f966e9dfe3f0181ee1014bcf377ce6bbbc35471d585e2dcd9743_sk"
+                "path":"crypto-config/peerOrganizations/public.secc.com/users/Admin@public.secc.com/msp/keystore/8703c9a0b2a038478b1d0b4787cd017ae9f78e937ba2694d03fad7dd78ac51f9_sk"
             },"signedCert":{
                 "path":"crypto-config/peerOrganizations/public.secc.com/users/Admin@public.secc.com/msp/signcerts/Admin@public.secc.com-cert.pem"
             }
